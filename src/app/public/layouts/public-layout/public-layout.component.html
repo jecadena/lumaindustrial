@@ -1,0 +1,8 @@
+<!-- public-layout.component.html -->
+<app-header></app-header>
+
+<main [class.inner-page-offset]="!isHomePage">
+  <router-outlet></router-outlet>
+</main>
+
+<app-footer></app-footer>

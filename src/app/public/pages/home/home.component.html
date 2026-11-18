@@ -1,0 +1,128 @@
+<!-- BANNER (93vh en Desktop / Adaptable en Móviles) CON FLECHAS -->
+<section class="hero-industrial">
+  <button class="hero-nav left" (click)="prevSlide()" aria-label="Slide anterior">
+    <i class="bi bi-chevron-left"></i>
+  </button>
+  
+  <div *ngFor="let slide of slides; let i = index" 
+       class="slide-box" [class.active]="i === currentSlide"
+       [style.backgroundImage]="'linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url(' + slide.img + ')'">
+    <div class="hero-content" *ngIf="i === currentSlide">
+      <div class="hero-flex">
+        <!-- Texto al costado izquierdo -->
+        <div class="text-side">
+          <span class="slide-badge" *ngIf="slide.badge">{{ slide.badge }}</span>
+          <h1>{{ slide.title }}</h1>
+          <p>{{ slide.sub }}</p>
+
+          <!-- Enlace funcional a Catálogos -->
+          <a *ngIf="slide.btnLink" 
+             [routerLink]="slide.btnLink" 
+             (click)="goToLink(slide.btnLink, $event)"
+             class="btn-luma"
+             role="button">
+            <span>{{ slide.btnText || 'Ver Catálogo' }}</span>
+            <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+
+        <!-- Imagen de logos: solo en pantallas grandes (se oculta en móviles para no estar en el centro) -->
+        <div class="image-side" *ngIf="slide.rightImg">
+          <div class="right-img-box">
+            <img [src]="slide.rightImg" [alt]="slide.title" class="side-logo-img">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="hero-nav right" (click)="nextSlide()" aria-label="Slide siguiente">
+    <i class="bi bi-chevron-right"></i>
+  </button>
+
+  <!-- Indicadores de puntos -->
+  <div class="slide-dots">
+    <span *ngFor="let s of slides; let idx = index" 
+          [class.active]="idx === currentSlide" 
+          (click)="currentSlide = idx"></span>
+  </div>
+</section>
+
+<!-- MARQUEE (7vh) - LOGOS CON FONDO BLANCO -->
+<div class="marquee-wrapper">
+  <div class="marquee-track">
+    <div class="marquee-group">
+      <img *ngFor="let logo of logos" 
+           [src]="'assets/logos/' + logo" 
+           [alt]="logo" 
+           class="marquee-logo">
+    </div>
+    <div class="marquee-group">
+      <img *ngFor="let logo of logos" 
+           [src]="'assets/logos/' + logo" 
+           [alt]="logo" 
+           class="marquee-logo">
+    </div>
+  </div>
+</div>
+
+<!-- CARRUSEL DE PRODUCTOS BOXED -->
+<!-- CARRUSEL DE PRODUCTOS BOXED -->
+<section class="products-carousel-area">
+  <div class="container-boxed">
+    <div class="area-header">
+      <i class="bi bi-gear-wide-connected"></i>
+      <p>COMPONENTES DE AUTOMATIZACIÓN Y CONTROL</p>
+      <h2>Nuestros Productos</h2>
+    </div>
+
+    <div class="carousel-box">
+      <button class="arrow-btn prev" (click)="prevProduct()" aria-label="Producto anterior">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+      
+      <!-- Viewport con gestos táctiles para deslizar en móviles -->
+      <div class="carousel-viewport" (touchstart)="onTouchStart($event)" (touchend)="onTouchEnd($event)">
+        <!-- Desplazamiento dinámico calculado por productTransform -->
+        <div class="carousel-track" [style.transform]="productTransform">
+          <div class="carousel-card" *ngFor="let prod of products">
+            <a class="card-inner" 
+               [routerLink]="prod.link" 
+               (click)="goToLink(prod.link, $event)"
+               role="button">
+              <div class="image-box">
+                <span class="badge-brand">{{ prod.brand }}</span>
+                <img [src]="prod.img" [alt]="prod.name">
+              </div>
+              <div class="info-box">
+                <span class="prod-tag" *ngIf="prod.tag">{{ prod.tag }}</span>
+                <h3>{{ prod.name }}</h3>
+                <p>{{ prod.desc }}</p>
+                <span class="link-text">Ver catálogo <i class="bi bi-arrow-right"></i></span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <button class="arrow-btn next" (click)="nextProduct()" aria-label="Producto siguiente">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER INDUSTRIAL / CALL TO ACTION -->
+<section class="newsletter-industrial">
+  <div class="overlay"></div>
+  <div class="cta-inner">
+    <div class="text">
+      <h2 style="margin-bottom:25px !important;">Déjenos sus datos</h2>
+      <p>Suscríbete para recibir especificaciones técnicas y ofertas exclusivas para la industria.</p>
+    </div>
+    <div class="form-box">
+      <input type="email" placeholder="Email address" [(ngModel)]="newsletterEmail">
+      <button (click)="suscribirse()">Suscribirse</button>
+    </div>
+  </div>
+</section>

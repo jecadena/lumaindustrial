@@ -1,0 +1,437 @@
+<!-- ========================================================================= -->
+<!-- 1. VISTA EXCLUSIVA PARA A&T FLUID SOLUTIONS (AIRWORK Y TECNOFLUID)        -->
+<!-- ========================================================================= -->
+<ng-container *ngIf="esMarcaAtFluid; else vistaEstandar">
+  <!-- Banner superior A&T Fluid Solutions -->
+  <section class="banner-section" [style.backgroundImage]="'url(' + bannerImg + ')'">
+    <div class="banner-overlay"></div>
+    <div class="container-boxed">
+      <div class="banner-content">
+        <div class="banner-text">
+          <span class="badge-tag">{{ configMarca.badgeTag }}</span>
+          <h1>{{ titulo }}</h1>
+          <p>{{ subtitulo }}</p>
+          <div class="banner-badges">
+            <span *ngFor="let cert of configMarca.certificaciones" class="badge">
+              <i [class]="'bi ' + cert.icon"></i> {{ cert.text }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contenedor a dos columnas: Menú Lateral + Contenido Principal -->
+  <div class="airwork-main-layout">
+    <div class="container-boxed airwork-flex-container">
+      <!-- MENÚ LATERAL (SIDEBAR) CON BUSCADOR DE PRODUCTOS -->
+      <aside class="airwork-sidebar">
+        <!-- Buscador en tiempo real -->
+        <div class="sidebar-search-box">
+          <label for="buscarInput" class="search-label">
+            <i class="bi bi-search"></i> Buscador de Productos
+          </label>
+          <div class="search-input-wrapper">
+            <input 
+              id="buscarInput"
+              type="text" 
+              [(ngModel)]="busqueda" 
+              (input)="filtrarProductos()"
+              [placeholder]="configMarca.placeholderBusqueda"
+              class="search-input" />
+            <button *ngIf="busqueda" (click)="limpiarBusqueda()" class="search-clear-btn" title="Limpiar búsqueda">
+              <i class="bi bi-x-circle-fill"></i>
+            </button>
+          </div>
+          <span *ngIf="busqueda" class="search-hint">
+            Filtrando {{ productosFiltrados.length }} productos coincidentes
+          </span>
+        </div>
+
+        <!-- Categorías con conteo dinámico (2 columnas en móviles) -->
+        <div class="sidebar-categories-box">
+          <h3 class="sidebar-title">
+            <i class="bi bi-grid-3x3-gap-fill"></i> Líneas de Productos
+          </h3>
+          <ul class="categories-list">
+            <li *ngFor="let cat of categoriasActivas">
+              <button 
+                (click)="cambiarCategoria(cat)" 
+                [class.active]="categoriaActiva === cat"
+                class="category-btn">
+                <span>{{ cat }}</span>
+                <span class="cat-count">{{ conteoPorCategoria(cat) }}</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Garantía y Calidad Industrial -->
+        <div class="sidebar-info-card">
+          <h4><i class="bi bi-patch-check-fill text-pink"></i> {{ configMarca.garantiaTitulo }}</h4>
+          <p>{{ configMarca.garantiaDesc }}</p>
+          <div class="cert-tags">
+            <span *ngFor="let t of configMarca.garantiaTags" class="tag">{{ t }}</span>
+          </div>
+          <button (click)="abrirModalCotizacion()" class="sidebar-cta-btn">
+            <i class="bi bi-envelope-paper-fill"></i> Solicitar Asesoría
+          </button>
+        </div>
+      </aside>
+
+      <!-- ÁREA DE CONTENIDO PRINCIPAL -->
+      <main class="airwork-content-area">
+        <!-- SECCIÓN ESPECIAL CUANDO SE SELECCIONA 'Productos Especiales' -->
+        <ng-container *ngIf="categoriaActiva === 'Productos Especiales'">
+          <!-- Hero de Desarrollo Custom -->
+          <div class="custom-hero-banner">
+            <div class="hero-text-content">
+              <span class="custom-badge">{{ configMarca.heroEspecialTag }}</span>
+              <h2>{{ configMarca.heroEspecialTitulo }}</h2>
+              <p>{{ configMarca.heroEspecialDesc }}</p>
+              <button (click)="abrirModalCotizacion()" class="btn-custom-quote">
+                <i class="bi bi-gear-fill"></i> Solicitar Desarrollo Especial
+              </button>
+            </div>
+            <div class="hero-image-wrapper">
+              <img src="https://www.at-fluidsolutions.com/wp-content/uploads/2024/10/airwork-special-cylinder-600x400.webp" 
+                   alt="Special Product Development" 
+                   (error)="onImgError($event)" />
+            </div>
+          </div>
+
+          <!-- Metodología 7 Pasos Oficiales -->
+          <div class="custom-steps-container">
+            <div class="steps-header">
+              <div>
+                <h3>{{ configMarca.metodologiaTitulo }}</h3>
+                <p>{{ configMarca.metodologiaDesc }}</p>
+              </div>
+              <div class="step-nav-controls">
+                <button (click)="pasoActivoIndex = (pasoActivoIndex - 1 + pasosCustomActivos.length) % pasosCustomActivos.length" 
+                        class="btn-step-prev" title="Paso anterior">
+                  <i class="bi bi-chevron-left"></i>
+                </button>
+                <span class="step-indicator">Paso {{ pasoActivoIndex + 1 }} de {{ pasosCustomActivos.length }}</span>
+                <button (click)="pasoActivoIndex = (pasoActivoIndex + 1) % pasosCustomActivos.length" 
+                        class="btn-step-next" title="Paso siguiente">
+                  <i class="bi bi-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Visualización del Paso Activo -->
+            <div class="step-active-card">
+              <div class="step-visual">
+                <img [src]="pasosCustomActivos[pasoActivoIndex].img" 
+                     [alt]="pasosCustomActivos[pasoActivoIndex].titulo" 
+                     (error)="onImgError($event)" />
+              </div>
+              <div class="step-details">
+                <span class="step-number">Paso {{ pasosCustomActivos[pasoActivoIndex].step }}</span>
+                <h4>{{ pasosCustomActivos[pasoActivoIndex].titulo }}</h4>
+                <h5>{{ pasosCustomActivos[pasoActivoIndex].subtitulo }}</h5>
+                <p>{{ pasosCustomActivos[pasoActivoIndex].descripcion }}</p>
+              </div>
+            </div>
+
+            <!-- Miniaturas de los 7 pasos -->
+            <div class="steps-thumbnails-row">
+              <button 
+                *ngFor="let p of pasosCustomActivos; let i = index" 
+                (click)="pasoActivoIndex = i" 
+                [class.active]="pasoActivoIndex === i" 
+                class="step-thumbnail-btn">
+                <span class="step-thumb-num">{{ p.step }}</span>
+                <span class="step-thumb-title">{{ p.titulo }}</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Catálogo de Soluciones Especiales de la Marca -->
+          <div class="special-catalog-section" *ngIf="productosFiltrados.length > 0">
+            <div class="catalog-header-bar">
+              <div>
+                <span class="cat-subtitle">Catálogo de Ingeniería Especial</span>
+                <h2>Soluciones Especiales Desarrolladas</h2>
+                <p>Modelos y sistemas hechos a medida listos para cotizar y adaptar a tu maquinaria.</p>
+              </div>
+            </div>
+            <div class="airwork-products-grid">
+              <div *ngFor="let prod of productosFiltrados" class="airwork-product-card">
+                <div class="card-image-wrap">
+                  <img [src]="prod.img" [alt]="prod.nombre" (error)="onImgError($event)" />
+                </div>
+                <div class="card-content">
+                  <div class="card-tags-row">
+                    <span class="card-cat-tag">{{ prod.categoria || 'Especial' }}</span>
+                    <span *ngIf="prod.codigo" class="card-code-tag">{{ prod.codigo }}</span>
+                  </div>
+                  <h4>{{ prod.nombre }}</h4>
+                  <p class="card-desc">{{ prod.desc }}</p>
+                  <div *ngIf="prod.specs" class="card-specs-box">
+                    <strong>Especificaciones:</strong> {{ prod.specs }}
+                  </div>
+                  <div class="card-actions-row">
+                    <button (click)="abrirModalFicha(prod)" class="card-action-btn btn-details">
+                      <i class="bi bi-file-earmark-text"></i> Ver Ficha
+                    </button>
+                    <button (click)="abrirModalCotizacion(prod)" class="card-action-btn btn-quote-card">
+                      <i class="bi bi-cart-plus"></i> Cotizar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Campos de Aplicación Industrial -->
+          <div class="campos-aplicacion-section">
+            <div class="campos-header">
+              <h3>{{ configMarca.aplicacionesTitulo }}</h3>
+              <p>{{ configMarca.aplicacionesDesc }}</p>
+            </div>
+            <div class="campos-grid">
+              <div *ngFor="let campo of camposAplicacionActivos" class="campo-card">
+                <div class="campo-icon-wrapper">
+                  <img [src]="campo.icono" [alt]="campo.nombre" (error)="onImgError($event)" class="campo-icon" />
+                </div>
+                <h4>{{ campo.nombre }}</h4>
+                <span class="campo-sub">{{ campo.subtitulo }}</span>
+                <p>{{ campo.descripcion }}</p>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- SECCIÓN ESTÁNDAR PARA OTRAS CATEGORÍAS O 'Todas' -->
+        <ng-container *ngIf="categoriaActiva !== 'Productos Especiales'">
+          <div class="catalog-header-bar">
+            <div>
+              <span class="cat-subtitle">{{ marcaActual === 'tecnofluid' ? 'Oleodinámica de Precisión (Hasta 700 bar)' : 'Neumática Industrial A&T Fluid Solutions' }}</span>
+              <h2>{{ categoriaActiva === 'Todas' ? 'Catálogo Completo de Productos' : categoriaActiva }}</h2>
+            </div>
+            <span class="header-count-pill">{{ productosFiltrados.length }} Componentes</span>
+          </div>
+
+          <div *ngIf="productosFiltrados.length > 0" class="airwork-products-grid">
+            <div *ngFor="let prod of productosFiltrados" class="airwork-product-card">
+              <div class="card-image-wrap">
+                <img [src]="prod.img" [alt]="prod.nombre" (error)="onImgError($event)" />
+              </div>
+              <div class="card-content">
+                <div class="card-tags-row">
+                  <span class="card-cat-tag">{{ prod.categoria || categoriaActiva }}</span>
+                  <span *ngIf="prod.codigo" class="card-code-tag">{{ prod.codigo }}</span>
+                </div>
+                <h4>{{ prod.nombre }}</h4>
+                <p class="card-desc">{{ prod.desc }}</p>
+                <div *ngIf="prod.specs" class="card-specs-box">
+                  <strong>Especificaciones:</strong> {{ prod.specs }}
+                </div>
+                <div class="card-actions-row">
+                  <button (click)="abrirModalFicha(prod)" class="card-action-btn btn-details">
+                    <i class="bi bi-file-earmark-text"></i> Ver Ficha
+                  </button>
+                  <button (click)="abrirModalCotizacion(prod)" class="card-action-btn btn-quote-card">
+                    <i class="bi bi-cart-plus"></i> Cotizar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Empty State si no hay resultados -->
+          <div *ngIf="productosFiltrados.length === 0" class="empty-results-box">
+            <i class="bi bi-search empty-icon"></i>
+            <h3>No se encontraron productos coincidentes</h3>
+            <p>No se encontraron componentes para "{{ busqueda }}" en la categoría seleccionada.</p>
+            <button (click)="limpiarBusqueda()" class="btn-reset-filter">
+              Limpiar filtros y ver todos
+            </button>
+          </div>
+        </ng-container>
+      </main>
+    </div>
+  </div>
+</ng-container>
+
+<!-- ========================================================================= -->
+<!-- 2. VISTA ESTÁNDAR PARA LAS OTRAS 12 MARCAS                                -->
+<!-- ========================================================================= -->
+<ng-template #vistaEstandar>
+  <!-- Banner superior -->
+  <section class="banner-section" [style.backgroundImage]="'url(' + bannerImg + ')'">
+    <div class="banner-overlay"></div>
+    <div class="container-boxed">
+      <div class="banner-content">
+        <div class="banner-text">
+          <h1>{{ titulo }}</h1>
+          <p>{{ subtitulo }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 Productos destacados -->
+  <section class="productos-banner-boxed">
+    <div class="container-boxed">
+      <div class="productos-row">
+        <div class="producto-card" *ngFor="let producto of productos | slice:0:3">
+          <div class="card-inner">
+            <img [src]="producto.img" [alt]="producto.nombre" (error)="onImgError($event)">
+            <h3>{{ producto.nombre }}</h3>
+            <p>{{ producto.desc }}</p>
+            <div class="card-actions-standard">
+              <button (click)="abrirModalCotizacion(producto)" class="btn-quote-card full-width">
+                <i class="bi bi-envelope-fill"></i> Cotizar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Grid inferior si hay más de 3 productos -->
+  <section class="productos-grid" *ngIf="productos.length > 3">
+    <div class="container-boxed">
+      <div class="productos-row">
+        <div class="producto-card" *ngFor="let producto of productos | slice:3">
+          <div class="card-inner">
+            <img [src]="producto.img" [alt]="producto.nombre" (error)="onImgError($event)">
+            <h3>{{ producto.nombre }}</h3>
+            <p>{{ producto.desc }}</p>
+            <div class="card-actions-standard">
+              <button (click)="abrirModalCotizacion(producto)" class="btn-quote-card full-width">
+                <i class="bi bi-envelope-fill"></i> Cotizar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</ng-template>
+
+<!-- ========================================================================= -->
+<!-- 3. MODALES: FICHA TÉCNICA Y COTIZACIÓN                                    -->
+<!-- ========================================================================= -->
+<!-- Modal Detalle Ficha Técnica -->
+<div class="product-modal-backdrop" *ngIf="modalFichaAbierto && productoSeleccionado" (click)="cerrarModalFicha()">
+  <div class="product-modal-box" (click)="$event.stopPropagation()">
+    <button class="modal-close-btn" (click)="cerrarModalFicha()" aria-label="Cerrar modal">
+      <i class="bi bi-x-lg"></i>
+    </button>
+    <div class="modal-img-wrapper">
+      <img [src]="productoSeleccionado.img" [alt]="productoSeleccionado.nombre" (error)="onImgError($event)" />
+    </div>
+    <div class="modal-body">
+      <div class="modal-tags-row">
+        <span class="modal-cat-tag">{{ productoSeleccionado.categoria }}</span>
+        <span *ngIf="productoSeleccionado.codigo" class="modal-badge">{{ productoSeleccionado.codigo }}</span>
+      </div>
+      <h3>{{ productoSeleccionado.nombre }}</h3>
+      <p class="modal-desc">{{ productoSeleccionado.desc }}</p>
+      <div class="modal-specs" *ngIf="productoSeleccionado.specs">
+        <strong>Especificaciones Técnicas:</strong>
+        <p>{{ productoSeleccionado.specs }}</p>
+      </div>
+      <div class="modal-actions">
+        <a *ngIf="productoSeleccionado.url" 
+           [href]="productoSeleccionado.url" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="btn-official-link">
+          <i class="bi bi-box-arrow-up-right"></i> Ver Ficha Oficial en A&T Fluid Solutions
+        </a>
+        <button class="btn-quote" (click)="cerrarModalFicha(); abrirModalCotizacion(productoSeleccionado)">
+          <i class="bi bi-cart-plus-fill"></i> Cotizar este Producto
+        </button>
+        <button class="btn-cancel" (click)="cerrarModalFicha()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Formulario de Cotización -->
+<!-- Modal Formulario de Cotización -->
+<div class="quote-modal-backdrop" *ngIf="modalCotizacionAbierto" (click)="cerrarModalCotizacion()">
+  <div class="quote-modal-card" (click)="$event.stopPropagation()">
+    <button class="modal-close-btn" (click)="cerrarModalCotizacion()" aria-label="Cerrar modal">
+      <i class="bi bi-x-lg"></i>
+    </button>
+    
+    <!-- 1. Formulario previo al envío -->
+    <div *ngIf="!cotizacionEnviada" class="quote-form-content">
+      <div class="quote-header">
+        <i class="bi bi-envelope-paper-heart-fill quote-icon"></i>
+        <div>
+          <h3>{{ configMarca.modalCotizacionTitulo }}</h3>
+          <p>{{ configMarca.modalCotizacionSub }}</p>
+        </div>
+      </div>
+
+      <form (ngSubmit)="enviarCotizacion()" class="quote-form">
+        <!-- Indicador de destino -->
+        <div class="email-destination-hint">
+          <small><i class="bi bi-info-circle"></i> Esta solicitud se direccionará a: <strong>{{ emailDestino }}</strong></small>
+        </div>
+
+        <div class="form-group">
+          <label>Empresa / Razón Social *</label>
+          <input type="text" [(ngModel)]="formularioCotizacion.empresa" name="empresa" placeholder="Nombre de la empresa" required />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Contacto *</label>
+            <input type="text" [(ngModel)]="formularioCotizacion.contacto" name="contacto" placeholder="Tu nombre y apellido" required />
+          </div>
+          <div class="form-group">
+            <label>Teléfono / WhatsApp *</label>
+            <input type="tel" [(ngModel)]="formularioCotizacion.telefono" name="telefono" placeholder="+51 999 999 999" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email Corporativo *</label>
+          <input type="email" [(ngModel)]="formularioCotizacion.email" name="email" placeholder="correo@empresa.com" required />
+        </div>
+        <div class="form-group">
+          <label>Requerimiento / Modelo a Cotizar</label>
+          <textarea [(ngModel)]="formularioCotizacion.comentarios" name="comentarios" rows="3" placeholder="Indica cantidades, diámetros o especificaciones..."></textarea>
+        </div>
+        <button type="submit" class="btn-submit-quote">
+          <i class="bi bi-send-fill"></i> Enviar Solicitud a {{ emailDestino }}
+        </button>
+      </form>
+    </div>
+
+    <!-- 2. Pantalla de Éxito con confirmación -->
+    <div *ngIf="cotizacionEnviada" class="quote-success-content">
+      <i class="bi bi-check-circle-fill success-icon"></i>
+      <h3>¡Solicitud de Cotización Enviada con Éxito!</h3>
+      <p class="success-dest">
+        Su requerimiento ha sido direccionado a: <strong>{{ emailDestino }}</strong>
+      </p>
+
+      <!-- Resumen del requerimiento enviado -->
+      <div class="quote-summary-box">
+        <div><strong>Empresa:</strong> {{ formularioCotizacion.empresa || 'No especificada' }}</div>
+        <div><strong>Contacto:</strong> {{ formularioCotizacion.contacto }} <span *ngIf="formularioCotizacion.telefono">({{ formularioCotizacion.telefono }})</span></div>
+        <div><strong>Email remitente:</strong> {{ formularioCotizacion.email }}</div>
+        <div><strong>Requerimiento:</strong> {{ formularioCotizacion.comentarios }}</div>
+      </div>
+
+      <p class="success-note">
+        El Ing. Eduardo Díaz revisará las especificaciones de su requerimiento y le responderá a la brevedad.
+      </p>
+
+      <div class="success-actions-row">
+        <a [href]="generarMailtoUrl()" class="btn-mailto-backup" target="_blank" rel="noopener">
+          <i class="bi bi-envelope-arrow-up"></i> Abrir copia en mi correo
+        </a>
+        <button (click)="cerrarModalCotizacion()" class="btn-success-close">Aceptar y Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

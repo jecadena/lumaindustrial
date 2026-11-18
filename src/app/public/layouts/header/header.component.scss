@@ -1,0 +1,724 @@
+:host, header {
+  display: block;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  background: transparent;
+  color: #fff;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  transition: all 0.4s ease;
+
+  .header-container {
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+  }
+
+  .logo img {
+    height: 80px;
+    width: auto;
+    transition: all 0.4s ease;
+    filter: brightness(0) invert(1);
+  }
+
+  /* NAVEGACIÓN ESCRITORIO - MAYÚSCULAS */
+  nav.desktop-nav {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+
+    .nav-link {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255, 255, 255, 0.9);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 10px 0;
+      cursor: pointer;
+      transition: color 0.3s ease;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 3px;
+        border-radius: 4px;
+        background: #fff;
+        transition: width 0.3s ease, background-color 0.3s ease;
+      }
+
+      &:hover::after,
+      &.active::after,
+      &.router-link-active::after {
+        width: 100%;
+      }
+
+      &.active,
+      &.router-link-active {
+        color: #fff;
+        font-weight: 800;
+      }
+    }
+
+    .dropdown-container {
+      position: relative;
+      padding: 15px 0;
+
+      .bi-chevron-down {
+        font-size: 0.75rem;
+        transition: transform 0.25s ease;
+      }
+
+      &:hover .bi-chevron-down {
+        transform: rotate(180deg);
+      }
+
+      &:hover .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%) translateY(12px);
+      width: 600px;
+      background: #fff;
+      border-radius: 16px;
+      padding: 16px 18px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.16);
+      border: 1px solid #e2e8f0;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 1100;
+    }
+
+    .dropdown-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 12px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #f1f5f9;
+
+      .dropdown-title {
+        font-size: 0.72rem;
+        font-weight: 800;
+        color: #57204f;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .dropdown-badge {
+        font-size: 0.68rem;
+        font-weight: 700;
+        color: #64748b;
+        background: #f1f5f9;
+        padding: 2px 8px;
+        border-radius: 12px;
+        text-transform: uppercase;
+      }
+    }
+
+    .dropdown-grid {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 4px 10px;
+
+      li {
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    .dropdown-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      text-decoration: none;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+
+      .card-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        color: #475569;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.92rem;
+        flex-shrink: 0;
+        transition: all 0.2s ease;
+      }
+
+      .card-info {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        flex: 1;
+
+        .card-title {
+          font-size: 0.84rem;
+          font-weight: 700;
+          color: #1e293b;
+          line-height: 1.2;
+          text-transform: uppercase;
+          transition: color 0.2s;
+        }
+
+        .card-subtitle {
+          font-size: 0.69rem;
+          color: #64748b;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          text-transform: uppercase;
+        }
+      }
+
+      .card-arrow {
+        font-size: 0.65rem;
+        color: #cbd5e1;
+        opacity: 0;
+        transform: translateX(-4px);
+        transition: all 0.2s ease;
+      }
+
+      &:hover {
+        background: #fdf2f8;
+        border-color: rgba(87, 32, 79, 0.12);
+
+        .card-icon {
+          background: #57204f;
+          border-color: #57204f;
+          color: #fff;
+        }
+
+        .card-title,
+        .card-arrow {
+          color: #57204f;
+        }
+
+        .card-arrow {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+    }
+  }
+
+  /* ACCIONES Y BOTÓN HAMBURGUESA */
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    .bi-search {
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 50%;
+      &:hover { background: rgba(255, 255, 255, 0.15); }
+    }
+
+    .social-links {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border-left: 1px solid rgba(255, 255, 255, 0.3);
+      padding-left: 16px;
+
+      a {
+        color: inherit;
+        font-size: 1.15rem;
+        text-decoration: none;
+        &:hover { transform: translateY(-2px); }
+      }
+    }
+
+    .mobile-toggle {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #fff;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1.4rem;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: rgba(87, 32, 79, 0.7);
+        border-color: #57204f;
+      }
+    }
+  }
+
+  /* ESTADO SCROLLED / MENÚ BLANCO */
+  &.scrolled {
+    height: 100px;
+    background-color: #ffffff !important;
+    color: #57204f !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12) !important;
+
+    .logo img {
+      height: 70px;
+      filter: none !important;
+    }
+
+    nav.desktop-nav {
+      .nav-link {
+        color: #57204f !important;
+
+        &::after {
+          background-color: #57204f;
+        }
+
+        &:hover {
+          color: #b3004b !important;
+          &::after {
+            width: 100%;
+            background-color: #b3004b;
+          }
+        }
+
+        &.active,
+        &.router-link-active {
+          color: #57204f !important;
+          font-weight: 800;
+
+          &::after {
+            width: 100%;
+            background-color: #57204f !important;
+          }
+        }
+      }
+    }
+
+    .actions {
+      color: #57204f !important;
+
+      .bi-search:hover {
+        background: rgba(87, 32, 79, 0.08);
+      }
+
+      .social-links {
+        border-color: rgba(87, 32, 79, 0.2);
+
+        a {
+          color: #57204f !important;
+          &:hover { color: #b3004b !important; }
+        }
+      }
+
+      .mobile-toggle {
+        background: #f1f5f9;
+        border-color: #cbd5e1;
+        color: #57204f;
+
+        &:hover {
+          background: #e2e8f0;
+        }
+      }
+    }
+  }
+}
+
+/* =========================================================================
+   ELEMENTOS DE MENÚ MÓVIL (DRAWER SLIDE-IN ROBUSTO)
+   ========================================================================= */
+.mobile-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(3px);
+  z-index: 1998;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+
+  &.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.mobile-drawer {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 330px;
+  max-width: 88vw;
+  height: 100vh;
+  height: 100dvh;
+  background: #ffffff;
+  color: #1e293b;
+  z-index: 1999;
+  box-shadow: -8px 0 30px rgba(0, 0, 0, 0.2);
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-direction: column;
+  overflow: hidden;
+
+  &.open {
+    transform: translateX(0);
+  }
+
+  .mobile-drawer-header {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid #f1f5f9;
+    background: #fafafa;
+
+    .mobile-logo img {
+      height: 38px;
+      width: auto;
+    }
+
+    .btn-close-drawer {
+      background: #f1f5f9;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      color: #64748b;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: all 0.2s;
+
+      &:hover {
+        background: #e2e8f0;
+        color: #0f172a;
+      }
+    }
+  }
+
+  /* Cuerpo del menú con scroll garantizado */
+  .mobile-drawer-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+    padding: 16px 14px 60px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    .mobile-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      color: #334155;
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      transition: all 0.2s;
+      flex-shrink: 0;
+
+      i {
+        font-size: 1.15rem;
+        color: #57204f;
+      }
+
+      &:hover,
+      &.active {
+        background: #fdf2f8;
+        color: #57204f;
+      }
+    }
+
+    /* Contenedor del acordeón de productos sin trabas */
+    .mobile-accordion {
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      margin: 2px 0;
+      background: #ffffff;
+      height: auto !important;
+      max-height: none !important;
+      overflow: visible !important;
+      transition: border-color 0.2s ease;
+      flex-shrink: 0;
+
+      &.expanded {
+        border-color: rgba(87, 32, 79, 0.3);
+      }
+
+      .mobile-accordion-btn {
+        width: 100%;
+        background: none;
+        border: none;
+        cursor: pointer;
+        justify-content: space-between;
+        text-transform: uppercase;
+
+        .left {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .right {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+
+          .brand-badge {
+            background: rgba(87, 32, 79, 0.1);
+            color: #57204f;
+            font-size: 0.72rem;
+            font-weight: 800;
+            padding: 2px 7px;
+            border-radius: 10px;
+            text-transform: uppercase;
+          }
+
+          i {
+            font-size: 0.75rem;
+            color: #94a3b8;
+          }
+        }
+      }
+
+      /* Contenedor de las 14 marcas: sin límites de altura */
+      .mobile-accordion-content {
+        display: block !important;
+        background: #f8fafc;
+        border-top: 1px solid #e2e8f0;
+        padding: 10px;
+        height: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+
+        .mobile-brands-list {
+          display: flex !important;
+          flex-direction: column !important;
+          gap: 5px;
+          height: auto !important;
+          max-height: none !important;
+          overflow: visible !important;
+
+          /* Cada una de las 14 marcas se muestra completa y nunca se achica */
+          .mobile-brand-item {
+            display: flex !important;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #334155;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+            cursor: pointer;
+            flex-shrink: 0 !important;
+            min-height: 44px;
+
+            &:hover {
+              background: #fdf2f8;
+              border-color: rgba(87, 32, 79, 0.2);
+              color: #57204f;
+            }
+
+            .brand-icon {
+              width: 30px;
+              height: 30px;
+              border-radius: 6px;
+              background: #f1f5f9;
+              border: 1px solid #cbd5e1;
+              color: #57204f;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 0.9rem;
+              flex-shrink: 0;
+            }
+
+            .brand-info {
+              flex: 1;
+              overflow: hidden;
+              display: flex;
+              flex-direction: column;
+
+              strong {
+                font-size: 0.82rem;
+                font-weight: 800;
+                line-height: 1.2;
+                color: #1e293b;
+                text-transform: uppercase;
+              }
+
+              small {
+                font-size: 0.67rem;
+                color: #64748b;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                text-transform: uppercase;
+              }
+            }
+
+            .arrow-icon {
+              font-size: 0.65rem;
+              color: #cbd5e1;
+              flex-shrink: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /* Pie del drawer móvil */
+  .mobile-drawer-footer {
+    flex-shrink: 0 !important;
+    padding: 16px;
+    border-top: 1px solid #f1f5f9;
+    background: #fafafa;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .btn-mobile-whatsapp {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #059669;
+      color: #ffffff;
+      padding: 11px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s;
+
+      &:hover {
+        background: #047857;
+      }
+    }
+
+    .mobile-socials {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: #64748b;
+      text-transform: uppercase;
+
+      .social-icons {
+        display: flex;
+        gap: 12px;
+
+        a {
+          color: #57204f;
+          font-size: 1.1rem;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
+
+/* =========================================================================
+   MEDIA QUERIES PARA ADAPTACIÓN EN DISPOSITIVOS MÓVILES (<= 992px)
+   ========================================================================= */
+@media (max-width: 992px) {
+  header {
+    height: 80px;
+
+    .header-container {
+      padding: 0 16px;
+    }
+
+    .logo img {
+      height: 52px;
+    }
+
+    /* Ocultar barra horizontal de escritorio */
+    nav.desktop-nav {
+      display: none !important;
+    }
+
+    .actions {
+      .social-links {
+        display: none !important;
+      }
+
+      /* Mostrar botón hamburguesa en móviles */
+      .mobile-toggle {
+        display: flex !important;
+      }
+    }
+
+    &.scrolled {
+      height: 75px;
+
+      .logo img {
+        height: 48px;
+      }
+    }
+  }
+
+  /* Activar drawer y overlay en pantallas móviles */
+  .mobile-overlay,
+  .mobile-drawer {
+    display: flex;
+  }
+}

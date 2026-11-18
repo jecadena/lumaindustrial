@@ -1,0 +1,732 @@
+:host {
+  display: block;
+  margin-top: 100px;
+
+  @media (max-width: 992px) {
+    margin-top: 80px;
+  }
+}
+
+body, main {
+  background: #f9f9f9;
+}
+
+.container-boxed {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+
+  @media (max-width: 768px) {
+    padding: 0 16px;
+  }
+}
+
+// ==========================================
+// BANNER SUPERIOR
+// ==========================================
+.banner-section {
+  position: relative;
+  height: 480px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  overflow: hidden;
+  margin-bottom: 0;
+
+  @media (max-width: 992px) {
+    height: auto;
+    min-height: 320px;
+    padding: 50px 0 80px 0;
+  }
+
+  @media (max-width: 768px) {
+    padding: 35px 0 50px 0;
+  }
+
+  .banner-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(17, 15, 24, 0.94) 0%, rgba(26, 20, 34, 0.85) 50%, rgba(10, 10, 15, 0.55) 100%);
+    pointer-events: none;
+  }
+
+  .banner-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+    width: 100%;
+
+    .banner-text {
+      max-width: 55%;
+      text-align: left;
+      padding-left: 40px;
+
+      @media (max-width: 1024px) {
+        max-width: 85%;
+        padding-left: 10px;
+      }
+
+      @media (max-width: 768px) {
+        max-width: 100%;
+        padding-left: 0;
+      }
+
+      .banner-badge {
+        display: inline-block;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #fff;
+        background: rgba(87, 32, 79, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        padding: 4px 14px;
+        border-radius: 50px;
+        margin-bottom: 12px;
+
+        @media (max-width: 768px) {
+          font-size: 0.68rem;
+          letter-spacing: 1px;
+          padding: 3px 10px;
+          margin-bottom: 8px;
+        }
+      }
+
+      // ✅ Título con interlineado corregido (1.25) y tamaño responsive
+      h1 {
+        font-size: 2.6rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        line-height: 1.25;
+        margin-bottom: 14px;
+        letter-spacing: -0.5px;
+        word-break: break-word;
+
+        @media (max-width: 992px) {
+          font-size: 2.1rem;
+          line-height: 1.25;
+        }
+
+        @media (max-width: 768px) {
+          font-size: 1.6rem;
+          line-height: 1.25;
+          margin-bottom: 10px;
+        }
+
+        @media (max-width: 480px) {
+          font-size: 1.35rem;
+        }
+      }
+
+      p {
+        font-size: 1.15rem;
+        opacity: 0.92;
+        line-height: 1.55;
+        margin-bottom: 24px;
+        color: #e6e6e6;
+
+        @media (max-width: 992px) {
+          font-size: 0.95rem;
+          margin-bottom: 18px;
+        }
+
+        @media (max-width: 768px) {
+          font-size: 0.84rem;
+          line-height: 1.45;
+          margin-bottom: 16px;
+        }
+      }
+
+      .banner-actions {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        flex-wrap: wrap;
+
+        @media (max-width: 640px) {
+          flex-direction: column;
+          width: 100%;
+          gap: 10px;
+        }
+
+        .btn-banner-primary {
+          background: #57204f;
+          color: #fff;
+          border: none;
+          padding: 12px 26px;
+          border-radius: 6px;
+          font-weight: 700;
+          font-size: 0.95rem;
+          cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          transition: all 0.3s ease;
+
+          @media (max-width: 640px) {
+            width: 100%;
+            justify-content: center;
+            padding: 10px 16px;
+            font-size: 0.85rem;
+          }
+
+          &:hover {
+            background: #6e2964;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(87, 32, 79, 0.4);
+          }
+        }
+
+        .btn-banner-secondary {
+          color: #fff;
+          border: 1px solid rgba(255, 255, 255, 0.4);
+          padding: 12px 20px;
+          border-radius: 6px;
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 0.95rem;
+          transition: all 0.3s ease;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+
+          @media (max-width: 640px) {
+            width: 100%;
+            justify-content: center;
+            padding: 10px 16px;
+            font-size: 0.85rem;
+          }
+
+          &:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #fff;
+          }
+        }
+      }
+    }
+  }
+}
+
+// ==========================================
+// SERVICIOS DESTACADOS (BOXED SOBRE BANNER)
+// ==========================================
+.servicios-banner-boxed {
+  position: relative;
+  margin-top: -60px;
+  z-index: 5;
+  background: transparent;
+  padding-bottom: 40px;
+
+  // En móvil no se solapa negativamente para no tapar el texto ni botones
+  @media (max-width: 768px) {
+    margin-top: 15px;
+    padding-bottom: 20px;
+  }
+
+  .servicios-row {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+
+    @media (max-width: 768px) {
+      gap: 16px;
+    }
+  }
+
+  .servicio-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.09);
+    overflow: hidden;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    cursor: pointer;
+    width: 31%;
+    display: flex;
+    flex-direction: column;
+
+    @media (max-width: 1024px) {
+      width: 48%;
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.16);
+
+      .card-image-wrap img {
+        transform: scale(1.06);
+      }
+      .btn-card-link {
+        color: #57204f;
+        padding-left: 5px;
+      }
+    }
+
+    .card-inner {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+
+      .card-image-wrap {
+        position: relative;
+        height: 190px;
+        overflow: hidden;
+
+        @media (max-width: 768px) {
+          height: 160px;
+        }
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.5s ease;
+        }
+
+        .card-tag {
+          position: absolute;
+          top: 12px;
+          right: 12px;
+          background: rgba(17, 15, 24, 0.85);
+          backdrop-filter: blur(4px);
+          color: #fff;
+          font-size: 0.75rem;
+          font-weight: 700;
+          padding: 4px 10px;
+          border-radius: 4px;
+          letter-spacing: 0.5px;
+          border-left: 2px solid #b3004b;
+        }
+      }
+
+      .card-body {
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+
+        @media (max-width: 768px) {
+          padding: 16px;
+        }
+
+        // ✅ Título con icono alineado e interlineado corregido (1.35)
+        .card-icon-title {
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+          margin-bottom: 12px;
+
+          i {
+            font-size: 1.4rem;
+            color: #57204f;
+            line-height: 1.3;
+            flex-shrink: 0;
+            margin-top: 1px;
+          }
+
+          h3 {
+            color: #1f1f24;
+            font-size: 1.18rem;
+            font-weight: 800;
+            line-height: 1.35;
+            margin: 0;
+
+            @media (max-width: 768px) {
+              font-size: 1.05rem;
+              line-height: 1.3;
+            }
+          }
+        }
+
+        .card-desc {
+          color: #555;
+          font-size: 0.92rem;
+          line-height: 1.5;
+          margin-bottom: 16px;
+
+          @media (max-width: 768px) {
+            font-size: 0.84rem;
+            margin-bottom: 12px;
+          }
+        }
+
+        .card-bullets {
+          list-style: none;
+          padding: 0;
+          margin: 0 0 20px 0;
+          border-top: 1px solid #f0f0f0;
+          padding-top: 12px;
+
+          @media (max-width: 768px) {
+            margin-bottom: 14px;
+            padding-top: 10px;
+          }
+
+          li {
+            font-size: 0.86rem;
+            color: #444;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+            line-height: 1.4;
+
+            @media (max-width: 768px) {
+              font-size: 0.78rem;
+            }
+
+            i {
+              color: #b3004b;
+              font-size: 0.95rem;
+              flex-shrink: 0;
+            }
+          }
+        }
+
+        .card-footer-action {
+          margin-top: auto;
+          padding-top: 12px;
+          border-top: 1px solid #f5f5f5;
+
+          .btn-card-link {
+            background: none;
+            border: none;
+            color: #b3004b;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+            padding: 0;
+
+            @media (max-width: 768px) {
+              font-size: 0.84rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// ==========================================
+// GRID INFERIOR (SERVICIOS COMPLEMENTARIOS)
+// ==========================================
+.servicios-grid {
+  background: #ffffff;
+  padding: 80px 0;
+
+  @media (max-width: 768px) {
+    padding: 40px 0 50px 0;
+  }
+
+  .section-heading {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 50px auto;
+
+    @media (max-width: 768px) {
+      margin-bottom: 25px;
+    }
+
+    .subtitulo-seccion {
+      color: #b3004b;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 8px;
+
+      @media (max-width: 768px) {
+        font-size: 0.72rem;
+        letter-spacing: 1px;
+      }
+    }
+
+    // ✅ Título de sección h2 con interlineado limpio (1.25)
+    h2 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #1f1f24;
+      margin-bottom: 10px;
+      line-height: 1.25;
+
+      @media (max-width: 768px) {
+        font-size: 1.6rem;
+      }
+
+      @media (max-width: 480px) {
+        font-size: 1.35rem;
+      }
+    }
+
+    p {
+      color: #666;
+      font-size: 1.05rem;
+      line-height: 1.5;
+
+      @media (max-width: 768px) {
+        font-size: 0.84rem;
+      }
+    }
+  }
+
+  .servicios-row {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+
+    @media (max-width: 768px) {
+      gap: 16px;
+    }
+  }
+
+  .servicio-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);
+    border: 1px solid #eee;
+    overflow: hidden;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    cursor: pointer;
+    width: 31%;
+    display: flex;
+    flex-direction: column;
+
+    @media (max-width: 1024px) {
+      width: 48%;
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+
+      .card-image-wrap img {
+        transform: scale(1.06);
+      }
+    }
+
+    .card-inner {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+
+      .card-image-wrap {
+        position: relative;
+        height: 200px;
+        overflow: hidden;
+
+        @media (max-width: 768px) {
+          height: 160px;
+        }
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.5s ease;
+        }
+
+        .card-tag {
+          position: absolute;
+          top: 12px;
+          right: 12px;
+          background: rgba(17, 15, 24, 0.85);
+          color: #fff;
+          font-size: 0.75rem;
+          font-weight: 700;
+          padding: 4px 10px;
+          border-radius: 4px;
+          border-left: 2px solid #57204f;
+        }
+      }
+
+      .card-body {
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+
+        @media (max-width: 768px) {
+          padding: 16px;
+        }
+
+        // ✅ Título h3 corregido con line-height: 1.35 uniforme
+        .card-icon-title {
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+          margin-bottom: 12px;
+
+          i {
+            font-size: 1.4rem;
+            color: #57204f;
+            line-height: 1.3;
+            flex-shrink: 0;
+            margin-top: 1px;
+          }
+
+          h3 {
+            color: #1f1f24;
+            font-size: 1.18rem;
+            font-weight: 800;
+            line-height: 1.35;
+            margin: 0;
+
+            @media (max-width: 768px) {
+              font-size: 1.05rem;
+              line-height: 1.3;
+            }
+          }
+        }
+
+        .card-desc {
+          color: #555;
+          font-size: 0.92rem;
+          line-height: 1.5;
+          margin-bottom: 14px;
+
+          @media (max-width: 768px) {
+            font-size: 0.84rem;
+          }
+        }
+
+        .card-bullets {
+          list-style: none;
+          padding: 0;
+          margin: 0 0 16px 0;
+          border-top: 1px solid #f0f0f0;
+          padding-top: 12px;
+
+          li {
+            font-size: 0.86rem;
+            color: #444;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+            line-height: 1.4;
+
+            @media (max-width: 768px) {
+              font-size: 0.78rem;
+            }
+
+            i {
+              color: #57204f;
+              flex-shrink: 0;
+            }
+          }
+        }
+
+        .card-footer-action {
+          margin-top: auto;
+          padding-top: 12px;
+          border-top: 1px solid #f5f5f5;
+
+          .btn-card-link {
+            background: none;
+            border: none;
+            color: #57204f;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+
+            @media (max-width: 768px) {
+              font-size: 0.84rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// ==========================================
+// METODOLOGÍA & GARANTÍA
+// ==========================================
+.servicios-garantia {
+  background: #191820;
+  color: #fff;
+  padding: 60px 0;
+
+  @media (max-width: 768px) {
+    padding: 35px 0;
+  }
+
+  .garantia-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .garantia-item {
+      padding: 10px 15px;
+      border-left: 2px solid rgba(179, 0, 75, 0.4);
+
+      .garantia-num {
+        font-size: 1.6rem;
+        font-weight: 900;
+        color: #b3004b;
+        margin-bottom: 6px;
+        line-height: 1;
+
+        @media (max-width: 768px) {
+          font-size: 1.35rem;
+          margin-bottom: 4px;
+        }
+      }
+
+      // ✅ Título h4 con interlineado holgado (1.35)
+      h4 {
+        font-size: 1.05rem;
+        font-weight: 700;
+        margin-bottom: 6px;
+        color: #fff;
+        line-height: 1.35;
+
+        @media (max-width: 768px) {
+          font-size: 0.95rem;
+        }
+      }
+
+      p {
+        font-size: 0.88rem;
+        color: #aaa;
+        line-height: 1.45;
+
+        @media (max-width: 768px) {
+          font-size: 0.78rem;
+        }
+      }
+    }
+  }
+}

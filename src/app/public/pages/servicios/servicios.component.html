@@ -1,0 +1,121 @@
+<!-- Banner superior a pantalla completa (full-width) con contenido boxed -->
+<section class="banner-section" [style.backgroundImage]="'url(' + (bannerImg || 'https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=1920&auto=format&fit=crop&q=80') + ')'">
+  <div class="banner-overlay"></div>
+  <div class="container-boxed">
+    <div class="banner-content">
+      <div class="banner-text">
+        <span class="banner-badge">INGENIERÍA & SOPORTE INDUSTRIAL</span>
+        <h1>{{ titulo }}</h1>
+        <p>{{ subtitulo }}</p>
+        <div class="banner-actions">
+          <button (click)="solicitarCotizacion()" class="btn-banner-primary">
+            <i class="bi bi-file-earmark-text"></i> Solicitar Cotización
+          </button>
+          <a href="#proceso" class="btn-banner-secondary">
+            Conocer Proceso <i class="bi bi-arrow-down-short"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Servicios destacados (Boxed solapados sobre el banner: margin-top: -60px en escritorio / responsive en móviles) -->
+<section class="servicios-banner-boxed">
+  <div class="container-boxed">
+    <div class="servicios-row">
+      <div *ngFor="let servicio of servicios.slice(0,3)" class="servicio-card">
+        <div class="card-inner">
+          <div class="card-image-wrap">
+            <img [src]="servicio.img" [alt]="servicio.nombre" (error)="onImgError($event)">
+            <span class="card-tag">{{ servicio.tag }}</span>
+          </div>
+          <div class="card-body">
+            <div class="card-icon-title">
+              <i [class]="'bi ' + servicio.icon"></i>
+              <h3>{{ servicio.nombre }}</h3>
+            </div>
+            <p class="card-desc">{{ servicio.desc }}</p>
+            <ul class="card-bullets" *ngIf="servicio.detalles">
+              <li *ngFor="let detalle of servicio.detalles">
+                <i class="bi bi-check2-circle"></i> {{ detalle }}
+              </li>
+            </ul>
+            <div class="card-footer-action">
+              <button (click)="seleccionarServicio(servicio)" class="btn-card-link">
+                Consultar Servicio <i class="bi bi-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Grid inferior para servicios adicionales (Boxed) -->
+<section class="servicios-grid" *ngIf="servicios.length > 3">
+  <div class="container-boxed">
+    <div class="section-heading">
+      <span class="subtitulo-seccion">ESPECIALIDADES ADICIONALES</span>
+      <h2>Servicios Complementarios en Planta</h2>
+      <p>Acompañamos cada etapa de su operación industrial con ingeniería de precisión y repuestos originales.</p>
+    </div>
+
+    <div class="servicios-row">
+      <div *ngFor="let servicio of servicios.slice(3)" class="servicio-card">
+        <div class="card-inner">
+          <div class="card-image-wrap">
+            <img [src]="servicio.img" [alt]="servicio.nombre" (error)="onImgError($event)">
+            <span class="card-tag">{{ servicio.tag }}</span>
+          </div>
+          <div class="card-body">
+            <div class="card-icon-title">
+              <i [class]="'bi ' + servicio.icon"></i>
+              <h3>{{ servicio.nombre }}</h3>
+            </div>
+            <p class="card-desc">{{ servicio.desc }}</p>
+            <ul class="card-bullets" *ngIf="servicio.detalles">
+              <li *ngFor="let detalle of servicio.detalles">
+                <i class="bi bi-check2-circle"></i> {{ detalle }}
+              </li>
+            </ul>
+            <div class="card-footer-action">
+              <button (click)="seleccionarServicio(servicio)" class="btn-card-link">
+                Consultar Servicio <i class="bi bi-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Barra Corporativa de Proceso & Garantía -->
+<section id="proceso" class="servicios-garantia">
+  <div class="container-boxed">
+    <div class="garantia-grid">
+      <div class="garantia-item">
+        <div class="garantia-num">01</div>
+        <h4>Diagnóstico & Evaluación</h4>
+        <p>Inspección técnica inicial y levantamiento en campo sin costo.</p>
+      </div>
+      <div class="garantia-item">
+        <div class="garantia-num">02</div>
+        <h4>Protocolo de Pruebas</h4>
+        <p>Normas internacionales ANSI/FCI e instrumentos certificados.</p>
+      </div>
+      <div class="garantia-item">
+        <div class="garantia-num">03</div>
+        <h4>Ejecución Especializada</h4>
+        <p>Técnicos certificados con repuestos originales de fábrica.</p>
+      </div>
+      <div class="garantia-item">
+        <div class="garantia-num">04</div>
+        <h4>Certificado & Garantía</h4>
+        <p>Entrega de informe metrológico y garantía técnica extendida.</p>
+      </div>
+    </div>
+  </div>
+</section>

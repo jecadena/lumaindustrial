@@ -1,0 +1,75 @@
+<footer>
+  <div class="footer-grid">
+    <!-- Columna 1: Marca con logo -->
+    <div class="col-brand">
+      <div class="logo-footer-wrap">
+        <a routerLink="/" (click)="irArriba()">
+          <img 
+            src="assets/logos/logoluma.png" 
+            alt="LUMA Industrial" 
+            class="footer-logo">
+        </a>
+      </div>
+      <p>Lideres en el suministro de componentes para automatización y control industrial.<br>Calidad y precisión en equipos y accesorios.</p>
+      <div class="socials">
+        <a href="https://pe.linkedin.com/company/luma-industrial-sac" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <i class="bi bi-linkedin"></i>
+        </a>
+        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <i class="bi bi-facebook"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Columna 2: Navegación -->
+    <div class="col-nav">
+      <h4>Navegación</h4>
+      <ul>
+        <li><a (click)="navegarYSubir('/')" style="cursor: pointer;">Inicio</a></li>
+        <li><a (click)="navegarYSubir('/productos/airwork')" style="cursor: pointer;">Productos</a></li>
+        <li><a (click)="navegarYSubir('/servicios')" style="cursor: pointer;">Servicios</a></li>
+        <li><a (click)="navegarYSubir('/nosotros')" style="cursor: pointer;">Nosotros</a></li>
+        <li><a (click)="navegarYSubir('/contacto')" style="cursor: pointer;">Contacto</a></li>
+      </ul>
+    </div>
+
+    <!-- Columna 3: Líneas Destacadas -->
+    <div class="col-lines">
+      <h4>Líneas Destacadas</h4>
+      <ul>
+        <li><a (click)="navegarYSubir('/productos/airwork')" style="cursor: pointer;">Neumática AIRWORK</a></li>
+        <li><a (click)="navegarYSubir('/productos/aplisens')" style="cursor: pointer;">Instrumentación APLISENS</a></li>
+        <li><a (click)="navegarYSubir('/productos/tork')" style="cursor: pointer;">Válvulas SMS TORK</a></li>
+        <li><a (click)="navegarYSubir('/productos/genebre')" style="cursor: pointer;">Actuador GENEBRE</a></li>
+        <li><a (click)="navegarYSubir('/productos/dci-dynamics')" style="cursor: pointer;">Manómetros DCI DYNAMIC</a></li>
+      </ul>
+    </div>
+
+    <!-- Columna 4: Atención al Cliente -->
+    <div class="col-contact">
+      <h4>Atención al Cliente</h4>
+      <ul class="contact-list">
+        <li>
+          <i class="bi bi-geo-alt"></i>
+          <span>Av. Argentina 538 Stand 1786 C.C. El Progreso<br>CERCADO DE LIMA</span>
+        </li>
+        <li>
+          <i class="bi bi-telephone"></i>
+          <a href="tel:+51924569203">+51 924 569 203</a>
+        </li>
+        <li>
+          <i class="bi bi-envelope"></i>
+          <a href="mailto:ventas@lumaindustrial.pe">ventas@lumaindustrial.pe</a>
+        </li>
+        <li>
+          <i class="bi bi-clock"></i>
+          <span>Lun - Vie: 8:00 AM - 6:00 PM</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="bottom">
+    <p>© {{ anioActual }} LUMA INDUSTRIAL E.I.R.L. — Todos los derechos reservados.</p>
+  </div>
+</footer>

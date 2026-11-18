@@ -1,0 +1,8 @@
+main {
+  min-height: 80vh;
+  margin-top: 120px;
+}
+/* public-layout.component.scss */
+main.inner-page-offset {
+  padding-top: 100px; /* Desplaza el contenido por debajo del header fijo */
+}

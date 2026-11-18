@@ -1,0 +1,1 @@
+import{Ba as e,Pa as o,Qa as a,Wa as m}from"./chunk-RMY2UOKD.js";var i=class n{static \u0275fac=function(t){return new(t||n)};static \u0275cmp=e({type:n,selectors:[["app-admin-layout"]],decls:2,vars:0,template:function(t,s){t&1&&(o(0,"p"),m(1,"admin-layout works!"),a())},encapsulation:2})};export{i as AdminLayoutComponent};

@@ -1,0 +1,139 @@
+<!-- Banner superior a pantalla completa para Nosotros -->
+<section class="banner-section" [style.backgroundImage]="'url(' + bannerImg + ')'">
+  <div class="banner-overlay"></div>
+  <div class="container-boxed">
+    <div class="banner-content">
+      <div class="banner-text">
+        <span class="banner-badge">LIDERAZGO & TRAYECTORIA INDUSTRIAL</span>
+        <h1>{{ titulo }}</h1>
+        <p>{{ subtitulo }}</p>
+        <div class="banner-actions">
+          <a routerLink="/productos" class="btn-banner-primary">
+            <i class="bi bi-boxes"></i> Ver Marcas
+          </a>
+          <a routerLink="/servicios" class="btn-banner-secondary">
+            Nuestros Servicios <i class="bi bi-arrow-right-short"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pilares corporativos: Misión, Visión y Valores (-60px sobre el banner) -->
+<section class="nosotros-banner-boxed">
+  <div class="container-boxed">
+    <div class="nosotros-row">
+      <div *ngFor="let pilar of pilares" class="nosotros-card">
+        <div class="card-inner">
+          <div class="card-image-wrap">
+            <img [src]="pilar.img" [alt]="pilar.nombre" (error)="onImgError($event)">
+            <span class="card-tag">{{ pilar.tag }}</span>
+          </div>
+          <div class="card-body">
+            <div class="card-icon-title">
+              <i [class]="'bi ' + pilar.icon"></i>
+              <h3>{{ pilar.nombre }}</h3>
+            </div>
+            <p class="card-desc">{{ pilar.desc }}</p>
+            <ul class="card-bullets" *ngIf="pilar.detalles">
+              <li *ngFor="let item of pilar.detalles">
+                <i class="bi bi-check2-circle"></i> {{ item }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NUESTRA EXPERIENCIA: 2 Columnas alineadas (Foto con Insignia + Texto y Ventajas) -->
+<section class="nosotros-historia">
+  <div class="container-boxed">
+    <div class="historia-grid">
+      <!-- Columna Izquierda: Foto con marco, gradiente e insignia en la esquina superior derecha -->
+      <div class="historia-foto-wrap">
+        <div class="foto-card">
+          <img [src]="fotoEquipo" alt="Equipo de Ingeniería LUMA Industrial" (error)="onImgError($event)">
+          <div class="foto-overlay"></div>
+
+          <!-- Insignia sobre la imagen en la esquina superior derecha (no solapa el texto inferior) -->
+          <div class="insignia-experiencia">
+            <span class="num">+25 Años</span>
+            <span class="label">De Trayectoria Industrial</span>
+          </div>
+
+          <!-- Leyenda en la parte inferior completamente libre sin cortes ni solapamientos -->
+          <div class="foto-caption">
+            <span class="caption-badge">TALENTO TÉCNICO ESPECIALIZADO</span>
+            <h4>Ingenieros especialistas en instrumentación y fluidos industriales</h4>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna Derecha: Contenido y ventajas técnicas -->
+      <div class="historia-texto">
+        <span class="subtitulo-seccion">NUESTRA EXPERIENCIA</span>
+        <h2>Ingeniería, Confiabilidad y Alianzas con Marcas Globales</h2>
+        <p>
+          En <strong>LUMA Industrial</strong> representamos y distribuimos en exclusiva marcas de renombre internacional como <strong>Airwork</strong>, <strong>Tecnofluid</strong>, <strong>Aplisens</strong>, <strong>SMS Tork</strong>, <strong>Genebre</strong> y <strong>Winters</strong>.
+        </p>
+        <p>
+          No solo entregamos componentes: contamos con taller de ensamblado con norma ISO 5211 para actuadores, banco computarizado de pruebas hidrostáticas y laboratorio de metrología para calibrar transmisores y manómetros con trazabilidad certificada.
+        </p>
+
+        <!-- Bloque de ventajas en 2 columnas -->
+        <div class="features-grid">
+          <div class="feature-item">
+            <div class="feature-icon">
+              <i class="bi bi-shield-check"></i>
+            </div>
+            <div>
+              <h5>Garantía de Fábrica</h5>
+              <p>Componentes 100% genuinos y certificados.</p>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon">
+              <i class="bi bi-truck"></i>
+            </div>
+            <div>
+              <h5>Stock Local Inmediato</h5>
+              <p>Disponibilidad para paradas imprevistas.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Barra de Cifras y Reconocimientos -->
+<section class="nosotros-cifras">
+  <div class="container-boxed">
+    <div class="cifras-grid">
+      <div class="cifra-item">
+        <div class="cifra-num">+25</div>
+        <div class="cifra-label">Años de Experiencia</div>
+        <div class="cifra-sub">En el sector industrial</div>
+      </div>
+      <div class="cifra-item">
+        <div class="cifra-num">+1,500</div>
+        <div class="cifra-label">Válvulas & Instrumentos</div>
+        <div class="cifra-sub">Calibrados al año</div>
+      </div>
+      <div class="cifra-item">
+        <div class="cifra-num">6</div>
+        <div class="cifra-label">Marcas Globales</div>
+        <div class="cifra-sub">Representación autorizada</div>
+      </div>
+      <div class="cifra-item">
+        <div class="cifra-num">99.8%</div>
+        <div class="cifra-label">Confiabilidad Operativa</div>
+        <div class="cifra-sub">En pruebas de estanqueidad</div>
+      </div>
+    </div>
+  </div>
+</section>

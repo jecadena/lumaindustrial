@@ -1,0 +1,174 @@
+<header [class.scrolled]="isScrolled || isWhiteHeader">
+  <div class="header-container">
+    <!-- LOGO CORPORATIVO -->
+    <div class="logo">
+      <a routerLink="/" (click)="closeMobile()">
+        <img src="assets/logos/logoluma.png" alt="LUMA INDUSTRIAL">
+      </a>
+    </div>
+    
+    <!-- MENÚ PRINCIPAL ESCRITORIO (> 992px) - TODO EN MAYÚSCULAS -->
+    <nav class="desktop-nav">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
+        INICIO
+      </a>
+      
+      <!-- PRODUCTOS CON MEGAMENÚ A 2 COLUMNAS -->
+      <div class="dropdown-container">
+        <a routerLink="/productos" routerLinkActive="active" class="nav-link">
+          PRODUCTOS <i class="bi bi-chevron-down"></i>
+        </a>
+
+        <div class="dropdown-menu">
+          <div class="dropdown-header">
+            <span class="dropdown-title">
+              <i class="bi bi-boxes"></i> MARCAS REPRESENTADAS
+            </span>
+            <span class="dropdown-badge">14 MARCAS OFICIALES</span>
+          </div>
+
+          <ul class="dropdown-grid">
+            <li *ngFor="let item of marcas; trackBy: trackByBrand">
+              <a [routerLink]="['/productos', item.id]" class="dropdown-card">
+                <div class="card-icon"><i [class]="'bi ' + item.icon"></i></div>
+                <div class="card-info">
+                  <span class="card-title">{{ item.name }}</span>
+                  <span class="card-subtitle">{{ item.cat }}</span>
+                </div>
+                <i class="bi bi-chevron-right card-arrow"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <a routerLink="/servicios" routerLinkActive="active" class="nav-link">SERVICIOS</a>
+      <a routerLink="/nosotros" routerLinkActive="active" class="nav-link">NOSOTROS</a>
+      <a routerLink="/contacto" routerLinkActive="active" class="nav-link">CONTACTO</a>
+    </nav>
+    
+    <!-- ACCIONES Y BOTÓN HAMBURGUESA -->
+    <div class="actions">
+      <i class="bi bi-search" title="BUSCAR"></i>
+      <div class="social-links">
+        <a href="https://pe.linkedin.com/company/luma-industrial-sac" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+      </div>
+
+      <button 
+        type="button"
+        class="mobile-toggle"
+        (click)="toggleMobile()" 
+        [attr.aria-label]="isMobileOpen ? 'CERRAR MENÚ' : 'ABRIR MENÚ'"
+        [attr.aria-expanded]="isMobileOpen">
+        <i class="bi" [class.bi-list]="!isMobileOpen" [class.bi-x-lg]="isMobileOpen"></i>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- OVERLAY OSCURO DE FONDO -->
+<div 
+  class="mobile-overlay" 
+  [class.active]="isMobileOpen" 
+  (click)="closeMobile()">
+</div>
+
+<!-- DRAWER LATERAL SLIDE-IN PARA CELULARES Y TABLETS -->
+<aside class="mobile-drawer" [class.open]="isMobileOpen">
+  <!-- Cabecera -->
+  <div class="mobile-drawer-header">
+    <div class="mobile-logo">
+      <img src="assets/logos/logoluma.png" alt="LUMA INDUSTRIAL">
+    </div>
+    <button type="button" class="btn-close-drawer" (click)="closeMobile()" aria-label="Cerrar menú">
+      <i class="bi bi-x-lg"></i>
+    </button>
+  </div>
+
+  <!-- Contenedor scrolleable con elementos en MAYÚSCULAS -->
+  <div class="mobile-drawer-body">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMobile()" class="mobile-link">
+      <i class="bi bi-house-door"></i>
+      <span>INICIO</span>
+    </a>
+
+    <!-- ACORDEÓN DE PRODUCTOS: Despliega las 14 marcas y desplaza hacia abajo el resto -->
+    <div class="mobile-accordion" [class.expanded]="isMobileProductsOpen">
+      <button 
+        type="button" 
+        class="mobile-link mobile-accordion-btn" 
+        (click)="toggleProducts($event)"
+        [attr.aria-expanded]="isMobileProductsOpen">
+        <span class="left">
+          <i class="bi bi-boxes"></i>
+          <span>PRODUCTOS</span>
+        </span>
+        <span class="right">
+          <span class="brand-badge">14 MARCAS</span>
+          <i class="bi" [class.bi-chevron-down]="!isMobileProductsOpen" [class.bi-chevron-up]="isMobileProductsOpen"></i>
+        </span>
+      </button>
+
+      <!-- LISTA DE LAS 14 MARCAS SIN RECORTE -->
+      <div class="mobile-accordion-content" *ngIf="isMobileProductsOpen">
+        <div class="mobile-brands-list">
+          <a *ngFor="let m of marcas; trackBy: trackByBrand" 
+             [routerLink]="['/productos', m.id]" 
+             (click)="closeMobile()" 
+             class="mobile-brand-item">
+            <div class="brand-icon">
+              <i [class]="'bi ' + m.icon"></i>
+            </div>
+            <div class="brand-info">
+              <strong>{{ m.name }}</strong>
+              <small>{{ m.cat }}</small>
+            </div>
+            <i class="bi bi-chevron-right arrow-icon"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVICIOS -->
+    <a routerLink="/servicios" routerLinkActive="active" (click)="closeMobile()" class="mobile-link">
+      <i class="bi bi-gear-wide-connected"></i>
+      <span>SERVICIOS</span>
+    </a>
+
+    <!-- NOSOTROS -->
+    <a routerLink="/nosotros" routerLinkActive="active" (click)="closeMobile()" class="mobile-link">
+      <i class="bi bi-building"></i>
+      <span>NOSOTROS</span>
+    </a>
+
+    <!-- CONTACTO -->
+    <a routerLink="/contacto" routerLinkActive="active" (click)="closeMobile()" class="mobile-link">
+      <i class="bi bi-telephone"></i>
+      <span>CONTACTO</span>
+    </a>
+  </div>
+
+  <!-- Pie del menú móvil -->
+  <div class="mobile-drawer-footer">
+    <a href="https://wa.me/51924569203?text=Hola%20LUMA%20Industrial%2C%20solicito%20atenci%C3%B3n" 
+       target="_blank" 
+       rel="noopener noreferrer" 
+       class="btn-mobile-whatsapp">
+      <i class="bi bi-whatsapp"></i>
+      <span>ATENCIÓN WHATSAPP 24/7</span>
+    </a>
+
+    <div class="mobile-socials">
+      <span>SÍGUENOS:</span>
+      <div class="social-icons">
+        <a href="https://pe.linkedin.com/company/luma-industrial-sac" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <i class="bi bi-linkedin"></i>
+        </a>
+        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <i class="bi bi-facebook"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</aside>

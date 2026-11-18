@@ -1,0 +1,1 @@
+import{Ba as e,Pa as n,Qa as p,Wa as s}from"./chunk-RMY2UOKD.js";var c=class t{static \u0275fac=function(o){return new(o||t)};static \u0275cmp=e({type:t,selectors:[["app-productos"]],decls:2,vars:0,template:function(o,a){o&1&&(n(0,"p"),s(1,"productos works!"),p())},encapsulation:2})};export{c as ProductosComponent};

@@ -1,0 +1,733 @@
+// ==========================================
+// BANNER Y FLECHAS
+// ==========================================
+.hero-industrial {
+  position: relative;
+  height: 93vh;
+  min-height: 640px;
+  overflow: hidden;
+  background: #000;
+  
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0));
+    z-index: 25;
+    pointer-events: none;
+  }
+
+  // Ajustes de altura del banner para móviles
+  @media (max-width: 768px) {
+    height: auto;
+    min-height: 520px;
+    padding: 110px 0 60px;
+  }
+
+  .hero-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 40;
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    backdrop-filter: blur(4px);
+
+    &:hover {
+      background: #57204f;
+      border-color: #57204f;
+    }
+    &.left { left: 40px; }
+    &.right { right: 40px; }
+
+    @media (max-width: 768px) {
+      width: 42px;
+      height: 42px;
+      font-size: 1.1rem;
+      &.left { left: 10px; }
+      &.right { right: 10px; }
+    }
+  }
+
+  .slide-box {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 10%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+
+    &.active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      z-index: 10;
+      animation: heroScale 0.8s forwards;
+    }
+
+    @media (max-width: 768px) {
+      padding: 0 54px; // Da margen para las flechas en móviles
+    }
+  }
+
+  .hero-content {
+    color: white;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 20;
+    pointer-events: auto;
+
+    .hero-flex {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+
+      @media (max-width: 992px) {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    .text-side {
+      flex: 1.2;
+      max-width: 800px;
+      position: relative;
+      z-index: 25;
+      pointer-events: auto;
+
+      .slide-badge {
+        display: inline-block;
+        padding: 6px 14px;
+        background: #57204f;
+        color: #fff;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        border-radius: 4px;
+        letter-spacing: 1px;
+        margin-bottom: 20px;
+
+        @media (max-width: 768px) {
+          padding: 4px 10px;
+          font-size: 0.7rem;
+          margin-bottom: 12px;
+        }
+      }
+
+      h1 {
+        font-size: 4rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        line-height: 1.1;
+        margin-bottom: 25px;
+        letter-spacing: -1px;
+
+        // ✅ Títulos mucho más pequeños y amigables para móviles
+        @media (max-width: 992px) {
+          font-size: 2.2rem;
+          margin-bottom: 16px;
+        }
+
+        @media (max-width: 768px) {
+          font-size: 1.65rem;
+          line-height: 1.2;
+          margin-bottom: 12px;
+          letter-spacing: normal;
+          word-break: break-word; // Evita desbordamiento en palabras largas
+        }
+
+        @media (max-width: 480px) {
+          font-size: 1.35rem;
+          line-height: 1.25;
+          margin-bottom: 10px;
+        }
+      }
+
+      p {
+        font-size: 1.3rem;
+        margin-bottom: 40px;
+        opacity: 0.9;
+        line-height: 1.6;
+        font-weight: 300;
+
+        // ✅ Subtítulos que entran cómodamente en la pantalla del celular
+        @media (max-width: 992px) {
+          font-size: 1.05rem;
+          margin-bottom: 24px;
+        }
+
+        @media (max-width: 768px) {
+          font-size: 0.88rem;
+          line-height: 1.45;
+          margin-bottom: 18px;
+          max-width: 100%;
+          opacity: 0.95;
+        }
+
+        @media (max-width: 480px) {
+          font-size: 0.82rem;
+          line-height: 1.4;
+          margin-bottom: 16px;
+        }
+      }
+
+      .btn-luma {
+        background: #57204f;
+        color: white;
+        padding: 18px 45px;
+        border: none;
+        font-weight: 800;
+        cursor: pointer;
+        border-radius: 4px;
+        text-transform: uppercase;
+        font-size: 1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        transition: 0.3s;
+        text-decoration: none;
+        position: relative;
+        z-index: 30;
+        pointer-events: auto;
+
+        &:hover {
+          background: #732968;
+          transform: translateY(-2px);
+          box-shadow: 0 10px 25px rgba(87,32,79,0.5);
+        }
+
+        @media (max-width: 768px) {
+          padding: 12px 26px;
+          font-size: 0.85rem;
+          gap: 8px;
+        }
+      }
+    }
+
+    // ✅ IMÁGENES DE LOGOS EN EL BANNER: ocultas en móviles para no aparecer en el centro
+    .image-side {
+      flex: 0.8;
+      display: flex;
+      justify-content: center;
+
+      @media (max-width: 992px) {
+        display: none !important; // NO se presentan en el centro en móviles
+      }
+
+      .right-img-box {
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 16px;
+        padding: 12px;
+        backdrop-filter: blur(8px);
+        max-width: 480px;
+
+        .side-logo-img {
+          width: 100%;
+          height: auto;
+          display: block;
+          border-radius: 10px;
+          object-fit: contain;
+        }
+      }
+    }
+  }
+
+  .slide-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 40;
+    display: flex;
+    gap: 8px;
+
+    span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.4);
+      cursor: pointer;
+      transition: 0.3s;
+
+      &.active {
+        width: 26px;
+        border-radius: 10px;
+        background: #57204f;
+      }
+    }
+  }
+}
+
+// ==========================================
+// MARQUEE (7vh) - LOGOS
+// ==========================================
+.marquee-wrapper {
+  width: 100%;
+  height: 7vh;
+  min-height: 55px;
+  background-color: #ffffff;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: scroll-marquee 40s linear infinite;
+
+  &:hover {
+    animation-play-state: paused;
+  }
+}
+
+.marquee-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.marquee-logo {
+  height: 44px;
+  width: auto;
+  margin: 0 35px;
+  filter: grayscale(20%);
+  transition: filter 0.3s;
+
+  &:hover {
+    filter: grayscale(0%);
+  }
+
+  @media (max-width: 768px) {
+    height: 36px;
+    margin: 0 20px;
+  }
+}
+
+@keyframes scroll-marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+// ==========================================
+// CARRUSEL PRODUCTOS BOXED
+// ==========================================
+// ==========================================
+// CARRUSEL PRODUCTOS BOXED
+// ==========================================
+.products-carousel-area {
+  padding: 110px 0;
+  background: #f5f5f5;
+
+  @media (max-width: 768px) {
+    padding: 45px 0 55px;
+  }
+
+  .container-boxed {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 20px;
+
+    @media (max-width: 768px) {
+      padding: 0 16px;
+    }
+  }
+
+  .area-header {
+    text-align: center;
+    margin-bottom: 60px;
+
+    @media (max-width: 768px) {
+      margin-bottom: 25px;
+    }
+
+    i {
+      color: #57204f;
+      font-size: 2.3rem;
+
+      @media (max-width: 768px) {
+        font-size: 1.6rem;
+      }
+    }
+
+    p {
+      color: #888;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+
+      @media (max-width: 768px) {
+        font-size: 0.72rem;
+        letter-spacing: 1px;
+        margin-top: 4px;
+      }
+    }
+
+    h2 {
+      color: #57204f;
+      font-size: 2.8rem;
+      font-weight: 800;
+      margin-top: 10px;
+
+      @media (max-width: 768px) {
+        font-size: 1.75rem;
+        margin-top: 6px;
+      }
+
+      @media (max-width: 480px) {
+        font-size: 1.5rem;
+      }
+    }
+  }
+
+  .carousel-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .arrow-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 15;
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      background: #57204f;
+      color: white;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: 0.3s;
+
+      &:hover {
+        background: #732968;
+        transform: translateY(-50%) scale(1.05);
+      }
+
+      &.prev { left: -25px; }
+      &.next { right: -25px; }
+
+      @media (max-width: 768px) {
+        width: 38px;
+        height: 38px;
+        font-size: 0.95rem;
+        &.prev { left: -6px; }
+        &.next { right: -6px; }
+      }
+
+      @media (max-width: 480px) {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
+        &.prev { left: -4px; }
+        &.next { right: -4px; }
+      }
+    }
+  }
+
+  .carousel-viewport {
+    overflow: hidden;
+    width: 100%;
+    padding: 10px 0;
+    touch-action: pan-y;
+  }
+
+  .carousel-track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    width: 100%;
+    will-change: transform;
+  }
+
+  .carousel-card {
+    flex: 0 0 33.333333%;
+    padding: 0 15px;
+    box-sizing: border-box;
+
+    @media (max-width: 992px) {
+      flex: 0 0 50%;
+      padding: 0 10px;
+    }
+
+    @media (max-width: 600px) {
+      flex: 0 0 100%;
+      padding: 0 6px;
+    }
+
+    .card-inner {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: 0.4s;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      text-decoration: none;
+
+      &:hover {
+        transform: translateY(-12px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+
+        .image-box img {
+          transform: scale(1.1);
+        }
+
+        .info-box .link-text {
+          color: #57204f;
+          font-weight: 700;
+        }
+      }
+    }
+
+    .image-box {
+      height: 380px;
+      overflow: hidden;
+      position: relative;
+      background: #ffffff;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid #f0f0f0;
+
+      @media (max-width: 600px) {
+        height: 280px;
+        padding: 14px;
+      }
+
+      .badge-brand {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(15, 23, 42, 0.85);
+        color: white;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 4px;
+        z-index: 2;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        transition: 0.6s;
+      }
+    }
+
+    .info-box {
+      padding: 25px;
+      text-align: center;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      @media (max-width: 600px) {
+        padding: 16px;
+      }
+
+      .prod-tag {
+        color: #57204f;
+        font-size: 0.75rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 6px;
+        display: block;
+      }
+
+      h3 {
+        color: #57204f;
+        font-weight: 800;
+        margin-bottom: 10px;
+        font-size: 1.15rem;
+
+        @media (max-width: 600px) {
+          font-size: 1.05rem;
+          margin-bottom: 6px;
+        }
+      }
+
+      p {
+        color: #666;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 15px;
+
+        @media (max-width: 600px) {
+          font-size: 0.82rem;
+          margin-bottom: 10px;
+        }
+      }
+
+      .link-text {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #777;
+        text-transform: uppercase;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        transition: 0.2s;
+      }
+    }
+  }
+}
+
+// ==========================================
+// NEWSLETTER / CALL TO ACTION
+// ==========================================
+.newsletter-industrial {
+  position: relative;
+  padding: 110px 5%;
+  background: #111;
+
+  // ✅ Espaciado reducido para celulares
+  @media (max-width: 900px) {
+    padding: 50px 20px;
+  }
+
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(87, 32, 79, 0.9);
+  }
+
+  .cta-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1300px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+
+    @media (max-width: 900px) {
+      flex-direction: column;
+      gap: 20px;
+      text-align: center;
+    }
+
+    .text {
+      flex: 1;
+
+      // ✅ Título "Déjenos sus datos" más pequeño
+      h2 {
+        font-size: 3rem;
+        font-weight: 800;
+        margin: 0;
+
+        @media (max-width: 900px) {
+          font-size: 1.85rem;
+          line-height: 1.2;
+        }
+
+        @media (max-width: 480px) {
+          font-size: 1.55rem;
+        }
+      }
+
+      p {
+        font-size: 1.2rem;
+        margin-top: 10px;
+        opacity: 0.85;
+
+        @media (max-width: 900px) {
+          font-size: 0.92rem;
+          margin-top: 6px;
+        }
+      }
+    }
+
+    .form-box {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+      gap: 20px;
+
+      @media (max-width: 900px) {
+        width: 100%;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      input {
+        width: 60%;
+        padding: 18px;
+        border-radius: 5px;
+        border: none;
+        font-size: 1rem;
+        outline: none;
+
+        @media (max-width: 900px) {
+          width: 100%;
+          padding: 14px;
+          font-size: 0.95rem;
+          box-sizing: border-box;
+        }
+      }
+
+      button {
+        padding: 18px 40px;
+        background: #000;
+        color: white;
+        border: none;
+        font-weight: 800;
+        cursor: pointer;
+        transition: 0.3s;
+        border-radius: 4px;
+        text-transform: uppercase;
+
+        &:hover {
+          background: #222;
+        }
+
+        @media (max-width: 900px) {
+          width: 100%;
+          padding: 14px;
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+}
+
+@keyframes heroScale {
+  from { transform: scale(1.1); }
+  to { transform: scale(1); }
+}

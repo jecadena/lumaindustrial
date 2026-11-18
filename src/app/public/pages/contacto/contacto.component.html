@@ -1,0 +1,366 @@
+<!-- 1. BANNER SUPERIOR A PANTALLA COMPLETA (FULL-WIDTH) -->
+<section class="banner-section" [style.backgroundImage]="'url(' + bannerImg + ')'">
+  <div class="banner-overlay"></div>
+  <div class="container-boxed">
+    <div class="banner-content">
+      <div class="banner-text">
+        <span class="banner-badge">CENTRO DE ATENCIÓN INDUSTRIAL</span>
+        <h1>{{ titulo }}</h1>
+        <p>{{ subtitulo }}</p>
+
+        <!-- BOTONES DE ACCIÓN DEL BANNER -->
+        <div class="banner-actions">
+          <a href="#mapa-sedes" class="btn-banner-primary" (click)="selectSede('comercial')">
+            <i class="bi bi-geo-alt-fill"></i>
+            <span>Ver Local Comercial en Mapa</span>
+          </a>
+          <a href="#formulario-contacto" class="btn-banner-secondary">
+            <span>Enviar Solicitud</span>
+            <i class="bi bi-chevron-down"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. 4 SEDES CORPORATIVAS (SOLAPADAS -60px SOBRE EL BANNER) -->
+<section class="contacto-banner-boxed">
+  <div class="container-boxed">
+    <div class="sedes-row">
+      <div *ngFor="let sede of sedes" 
+           class="sede-card"
+           [class.seleccionada]="activeTabSede === sede.id"
+           [class.marcada]="sede.isMapLocation"
+           (click)="selectSede(sede.id)">
+
+        <!-- Barra superior acentuada -->
+        <div class="top-bar-accent" [class.accent-magenta]="sede.isMapLocation"></div>
+
+        <!-- Encabezado de la tarjeta -->
+        <div class="sede-header">
+          <div class="sede-icon">
+            <i [class]="'bi ' + sede.icon"></i>
+          </div>
+          <span class="sede-tag" [class.tag-destacado]="sede.isMapLocation">
+            {{ sede.badge }}
+          </span>
+        </div>
+
+        <!-- Título y Tipo -->
+        <h3 class="sede-nombre">{{ sede.nombre }}</h3>
+        <span class="sede-tipo">{{ sede.tipo }}</span>
+
+        <!-- Información de contacto -->
+        <div class="sede-info">
+          <!-- Dirección -->
+          <div class="info-item">
+            <i class="bi bi-geo-alt geo-icon"></i>
+            <div>
+              <p class="dir">{{ sede.direccion }}</p>
+              <p class="ciudad">{{ sede.ciudad }}</p>
+            </div>
+          </div>
+
+          <!-- Teléfono -->
+          <div class="info-item">
+            <i class="bi bi-telephone phone-icon"></i>
+            <a [href]="'tel:' + cleanPhone(sede.telefono)" (click)="$event.stopPropagation()">
+              {{ sede.telefono }}
+            </a>
+          </div>
+
+          <!-- Email -->
+          <div class="info-item">
+            <i class="bi bi-envelope email-icon"></i>
+            <a [href]="'mailto:' + sede.email" (click)="$event.stopPropagation()">
+              {{ sede.email }}
+            </a>
+          </div>
+
+          <!-- Horario -->
+          <div class="info-item horario-item">
+            <i class="bi bi-clock clock-icon"></i>
+            <span>{{ sede.horario }}</span>
+          </div>
+        </div>
+
+        <!-- Footer con WhatsApp Directo -->
+        <div class="sede-footer">
+          <a [href]="getWhatsAppLink(sede.telefono)" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             class="btn-whatsapp" 
+             (click)="$event.stopPropagation()">
+            <i class="bi bi-whatsapp"></i>
+            <span>WhatsApp Directo</span>
+          </a>
+
+          <span class="tag-marcado" *ngIf="activeTabSede === sede.id">
+            <i class="bi bi-pin-map-fill"></i> Activa
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. SECCIÓN DEL MAPA INTERACTIVO DINÁMICO (GRIS -> COLOR) -->
+<section id="mapa-sedes" class="contacto-mapa-seccion">
+  <div class="container-boxed">
+    <!-- Header del mapa con selector de modo -->
+    <div class="mapa-header-row">
+      <div class="mapa-header-text">
+        <span class="subtitulo-seccion">GEOLOCALIZACIÓN ESTRATÉGICA</span>
+        <h2>{{ activeSede.mapTitle }}</h2>
+        <p>{{ activeSede.mapDesc }}</p>
+      </div>
+
+      <!-- Controles interactivos: Gris / Color -->
+      <div class="mapa-controles">
+        <div class="selector-modo">
+          <button type="button" 
+                  [class.activo]="!isManualColor" 
+                  (click)="setManualColor(false)">
+            <i class="bi bi-circle-half"></i> Mapa Gris
+          </button>
+          <button type="button" 
+                  [class.activo]="isManualColor" 
+                  (click)="setManualColor(true)">
+            <i class="bi bi-palette-fill"></i> Mapa Color
+          </button>
+        </div>
+
+        <div class="aviso-hover-logo" *ngIf="isCommercialSelected">
+          <i class="bi bi-info-circle"></i>
+          <span>Pase el cursor sobre la insignia de LUMA para activar la vista a color</span>
+        </div>
+        <div class="aviso-hover-logo sede-tag-info" *ngIf="!isCommercialSelected">
+          <i class="bi bi-geo-alt-fill"></i>
+          <span>Ubicación: <strong>{{ activeSede.nombre }}</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contenedor del mapa con filtro dinámico -->
+    <div class="mapa-wrapper" [class.mapa-color]="isMapColor">
+      <!-- Iframes dinámicos con src estático por sede (Garantiza cero errores de DomSanitizer en Angular) -->
+      <iframe
+        *ngIf="activeTabSede === 'comercial'"
+        title="Mapa Local Comercial LUMA Industrial"
+        class="mapa-iframe"
+        loading="lazy"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.8847648352613!2d-77.04875322415174!3d-12.04253308819389!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c8cd6760f38b%3A0xc3f48ee5fcefbbfb!2sAv.%20Argentina%20538%2C%20Lima%2015079!5e0!3m2!1ses!2spe!4v1710738920000!5m2!1ses!2spe">
+      </iframe>
+
+      <iframe
+        *ngIf="activeTabSede === 'principal'"
+        title="Mapa Sede Principal LUMA Industrial"
+        class="mapa-iframe"
+        loading="lazy"
+        src="https://www.openstreetmap.org/export/embed.html?bbox=-77.075,-11.938,-77.055,-11.922&layer=mapnik&marker=-11.9298,-77.0655">
+      </iframe>
+
+      <iframe
+        *ngIf="activeTabSede === 'norte'"
+        title="Mapa Ventas Norte LUMA Industrial"
+        class="mapa-iframe"
+        loading="lazy"
+        src="https://www.openstreetmap.org/export/embed.html?bbox=-79.038,-8.118,-79.018,-8.102&layer=mapnik&marker=-8.1116,-79.0287">
+      </iframe>
+
+      <iframe
+        *ngIf="activeTabSede === 'sur'"
+        title="Mapa Ventas Sur LUMA Industrial"
+        class="mapa-iframe"
+        loading="lazy"
+        src="https://www.openstreetmap.org/export/embed.html?bbox=-71.548,-16.418,-71.528,-16.402&layer=mapnik&marker=-16.4090,-71.5375">
+      </iframe>
+
+      <!-- MARCADOR 1: EXCLUSIVO DEL LOCAL COMERCIAL CON LOGO DE LUMA + PULSO RADAR -->
+      <div *ngIf="isCommercialSelected"
+           class="pin-luma-container"
+           [class.pin-activo]="isMapColor"
+           (mouseenter)="setHoverLogo(true)"
+           (mouseleave)="setHoverLogo(false)">
+        <!-- Ondas de pulso radar corporativo -->
+        <div class="radar-pulse"></div>
+
+        <!-- Pin con Logo de LUMA -->
+        <div class="pin-badge">
+          <div class="logo-box">
+            <img src="assets/logos/logoluma.png" alt="Logo LUMA Industrial" width="120" height="35" style="max-height: 35px; width: auto;">
+          </div>
+          <div class="pin-texto">
+            <span class="badge-mini">LOCAL COMERCIAL</span>
+            <strong>LUMA Industrial S.A.C.</strong>
+            <small>Av. Argentina 538 Stand 1786</small>
+          </div>
+        </div>
+        <div class="pin-arrow"></div>
+
+        <!-- Tooltip flotante al pasar el mouse -->
+        <div class="pin-tooltip" [class.tooltip-visible]="isMapColor">
+          <strong>C.C. El Progreso - Stand 1786</strong>
+          <p>Atención en mostrador y recojo de pedidos</p>
+          <span class="stock-check">
+            <i class="bi bi-check-circle-fill"></i> Stock disponible para retiro
+          </span>
+        </div>
+      </div>
+
+      <!-- MARCADOR 2: PARA OTRAS SEDES (SOLO ÍCONO DE UBICACIÓN EN LA DIRECCIÓN INDICADA) -->
+      <div *ngIf="!isCommercialSelected" class="pin-standard-container">
+        <div class="pin-standard-badge">
+          <div class="pin-icon-box">
+            <i class="bi bi-geo-alt-fill"></i>
+          </div>
+          <div class="pin-info">
+            <span class="pin-tag">{{ activeSede.nombre }}</span>
+            <strong>{{ activeSede.direccion }}</strong>
+            <small>{{ activeSede.ciudad }}</small>
+          </div>
+        </div>
+        <div class="pin-standard-arrow"></div>
+      </div>
+
+      <!-- Tarjeta informativa fija de la sede en esquina superior derecha -->
+      <div class="tarjeta-flotante-sede">
+        <div class="tarjeta-top">
+          <span class="tag-sede-activa">SEDE SELECCIONADA</span>
+          <span class="tag-abierto"><span class="punto-verde"></span> Abierto Hoy</span>
+        </div>
+
+        <h4>{{ activeSede.nombre }} - {{ activeSede.ciudad }}</h4>
+        <p class="dir-resumen">{{ activeSede.direccion }}</p>
+
+        <div class="datos-lista">
+          <p><i class="bi bi-telephone"></i> <strong>{{ activeSede.telefono }}</strong></p>
+          <p><i class="bi bi-envelope"></i> {{ activeSede.email }}</p>
+          <p><i class="bi bi-clock"></i> {{ activeSede.horario }}</p>
+        </div>
+
+        <a [href]="activeSede.googleMapsUrl" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="btn-como-llegar">
+          <i class="bi bi-box-arrow-up-right"></i>
+          <span>Cómo Llegar en Google Maps</span>
+        </a>
+      </div>
+
+      <!-- Leyenda de estado inferior izquierda -->
+      <div class="mapa-leyenda">
+        <span class="punto-estado" [class.activo]="isMapColor"></span>
+        <span>Estado del Mapa: {{ isMapColor ? 'Modo Color (Activo)' : 'Modo Escala de Grises' }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. SECCIÓN: FORMULARIO DE CONTACTO & ASESORÍA DIRECTA -->
+<section id="formulario-contacto" class="contacto-formulario-seccion">
+  <div class="container-boxed">
+    <div class="formulario-grid">
+      <!-- Columna Izquierda: Información de Soporte y Garantía -->
+      <div class="info-col">
+        <span class="subtitulo-seccion">ATENCIÓN AL CLIENTE & PROYECTOS</span>
+        <h2>¿Necesita una cotización o soporte técnico en planta?</h2>
+        <p class="desc-formulario">
+          Complete el formulario detallando el tipo de fluido, rango de presión o marcas requeridas. Uno de nuestros ingenieros de ventas se pondrá en contacto en menos de 2 horas hábiles.
+        </p>
+
+        <div class="beneficios-lista">
+          <div class="beneficio-card">
+            <div class="beneficio-icon"><i class="bi bi-shield-check"></i></div>
+            <div>
+              <h5>Trazabilidad & Garantía</h5>
+              <p>Certificados de calibración de fábrica e informes metrológicos oficiales.</p>
+            </div>
+          </div>
+
+          <div class="beneficio-card">
+            <div class="beneficio-icon"><i class="bi bi-truck"></i></div>
+            <div>
+              <h5>Envíos a Nivel Nacional</h5>
+              <p>Despacho express a faenas mineras, agroindustria, químicas y pesqueras.</p>
+            </div>
+          </div>
+
+          <div class="beneficio-card">
+            <div class="beneficio-icon urgencia"><i class="bi bi-whatsapp"></i></div>
+            <div>
+              <h5>Línea de Urgencias 24/7</h5>
+              <p>Para emergencias y paradas no programadas: <strong>+51 924 569 203</strong></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna Derecha: Formulario de Requerimientos -->
+      <div class="form-col">
+        <div class="form-card">
+          <div class="form-header">
+            <h3>Formulario de Contacto & Requerimientos</h3>
+            <p>Indíquenos su necesidad técnica o comercial y la sede de su preferencia.</p>
+          </div>
+
+          <!-- Mensaje de éxito -->
+          <div class="alerta-exito" *ngIf="formSuccess">
+            <i class="bi bi-check-circle-fill"></i>
+            <h4>¡Mensaje Enviado con Éxito!</h4>
+            <p>Hemos recibido su requerimiento. Un asesor técnico se comunicará a la brevedad.</p>
+          </div>
+
+          <!-- Formulario de envío -->
+          <form (ngSubmit)="onSubmit()" *ngIf="!formSuccess" class="contact-form">
+            <div class="form-row-2">
+              <div class="form-group">
+                <label>Nombre y Apellidos *</label>
+                <input type="text" [(ngModel)]="formData.nombre" name="nombre" placeholder="Ej. Ing. Carlos Mendoza" required>
+              </div>
+
+              <div class="form-group">
+                <label>Empresa / Razón Social *</label>
+                <input type="text" [(ngModel)]="formData.empresa" name="empresa" placeholder="Ej. Minera o Industria S.A." required>
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label>Correo Corporativo *</label>
+                <input type="email" [(ngModel)]="formData.email" name="email" placeholder="cmendoza@empresa.pe" required>
+              </div>
+
+              <div class="form-group">
+                <label>Teléfono / Celular *</label>
+                <input type="tel" [(ngModel)]="formData.telefono" name="telefono" placeholder="+51 900 000 000" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Sede de Atención Preferida</label>
+              <select [(ngModel)]="formData.sede" name="sede">
+                <option value="comercial">Local Comercial (Av. Argentina 538 - Cercado Lima)</option>
+                <option value="principal">Sede Principal (Calle Lenin N° 115 - Lima 06)</option>
+                <option value="norte">Ventas Norte (Trujillo)</option>
+                <option value="sur">Ventas Sur (Arequipa)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Detalle de su Requerimiento o Consulta *</label>
+              <textarea rows="4" [(ngModel)]="formData.mensaje" name="mensaje" 
+                        placeholder="Especifique producto de interés, marca (Airwork, Tecnofluid, Aplisens, Genebre, etc.), cantidad o requerimiento de calibración..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn-enviar">
+              <i class="bi bi-send-fill"></i>
+              <span>Enviar Mensaje a la Sede Seleccionada</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
